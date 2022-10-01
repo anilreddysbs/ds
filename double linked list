@@ -1,0 +1,251 @@
+class node:
+    def __init__(self,value):
+        self.data=value
+        self.next=None
+        self.prev=None
+class Dlist:
+    def __init__(self):
+        self.head=None
+        self.tail=None
+    def insertatbegin(self,value):
+        newnode=node(value)
+        if self.head==None:
+            self.head=newnode
+            self.tail=newnode
+        else:
+            newnode.next=self.head
+            self.head.prev=newnode
+            self.head=newnode
+    def insertatend(self,value):
+        newnode=node(value)
+        if self.head==None:
+            self.head=newnode
+            self.tail=newnode
+        else:
+            self.tail.next=newnode
+            newnode.prev=self.tail
+            self.tail=newnode
+    def display(self):
+        temp=self.head
+        while(temp!=None):
+            print(temp.data,end=" ")
+            temp=temp.next
+        print()
+    def insertafterele(self,value,ele):
+        newnode=node(value)
+        temp=self.head
+        if temp==None:
+            print("Insert elements")
+        else:
+            if self.search(ele):
+                if temp.next==None:
+                    self.insertatend(value)
+                else:
+                    while(temp.data!=ele):
+                        temp=temp.next
+                    if temp.next==None:
+                        self.insertatend(value)
+                    else:
+                        newnode.next=temp.next
+                        temp.next.prev=newnode
+                        newnode.prev=temp
+                        temp.next=newnode
+            else:
+                print("No such element")
+    def insertbeforeele(self,value,ele):
+        newnode=node(value)
+        temp=self.head
+        if temp==None:
+            print("Insert elements")
+        else:
+            if self.search(ele):
+                if temp.next==None:
+                    self.insertatbegin(value)
+                else:
+                    while(temp.next.data!=ele):
+                        temp=temp.next
+                    if temp.next==None:
+                        self.insertatend(value)
+                    else:
+                        newnode.next=temp.next
+                        temp.next.prev=newnode
+                        newnode.prev=temp
+                        temp.next=newnode
+            else:
+                print("No such element")
+    def search(self,ele):
+        temp=self.head
+        while(temp!=None):
+            if temp.data==ele:
+                return 1
+            else:
+                temp=temp.next
+        return 0
+    def delete(self,ele):
+        temp=self.head
+        if temp.data==ele:
+            self.head=None
+            self.tail=None
+        else:
+            while(temp.data!=ele):
+                temp=temp.next
+            if temp.next==None:
+                temp.prev.next=None
+                temp.next=None
+                temp.prev=None
+            else:
+                temp.prev.next=temp.next
+                temp.next.prev=temp.prev
+                temp.next=None
+                temp.prev=None
+    def deletebegin(self):
+        temp=self.head
+        if temp.next==None:
+            self.head=None
+            self.tail=None
+        else:
+            self.head=self.head.next
+            temp.next=None
+            self.head.prev=None
+    def deleteend(self):
+        temp=self.tail
+        if temp.next==None:
+            self.head=None
+            self.tail=None
+        else:
+            self.tail=self.tail.prev
+            temp.prev=None
+            self.tail.next=None
+    def insertatpos(self,value,pos):
+        newnode=node(value)
+        i=0
+        temp=self.head
+        f=0
+        while(i!=pos):
+            if temp==None:
+                f=1
+                break
+            else:
+                temp=temp.next
+                i+=1
+        if f==0:
+            newnode.next=temp
+            temp.prev.next=newnode
+            newnode.prev=temp.prev
+            temp.prev=newnode  
+        else:
+            if i==pos-1:
+                self.insertatend(value)
+            else:
+                print("Insert more elements")
+    def deleteatpos(self,pos):
+        i=0
+        f=0
+        temp=self.head
+        if temp==None:
+            print("Insert more elements")
+        else:
+            while(i!=pos):
+                if temp.next==None:
+                    f=1
+                    break
+                else:
+                    temp=temp.next
+                    i+=1
+            if f==0:
+                temp.prev.next=temp.next
+                temp.next.prev=temp.prev
+                temp.next=None
+                temp.prev=None
+            else:
+                print("Insert more elements")
+    def rotations(self,r,c):
+        if c%2!=0:
+            self.tail.next=self.head
+            self.head.prev=self.tail
+            cur=self.head
+            for i in range(1,r):
+                cur=cur.next
+            self.head=cur.next
+            self.tail=cur
+            self.head.prev=None
+            self.tail.next=None
+        else:
+            self.tail.next=self.head
+            self.head.prev=self.tail
+            cur=self.head
+            for i in range(1,r-1):
+                cur=cur.prev
+            self.head=cur
+            self.tail=cur.prev
+            self.head.prev=None
+            self.tail.next=None
+    def size(self):
+        c=1
+        temp=self.head
+        while(temp.next!=None):
+            temp=temp.next
+            c+=1
+        return c
+            
+l=Dlist()
+op=1
+while(op!=0):
+    print("0.exit 1.insertatbegin 2.display 3.insertatend 4.insertafterele 5.insertbeforeele \n6.insertatpos 7.search 8.delete 9.deletebegin 10.deleteend 11.deleteatpos 12.rotations 13.size:",end="")
+    op=int(input())
+    if op==1:
+        v=int(input("Enter value:"))
+        l.insertatbegin(v)
+    if op==2:
+        l.display()
+    if op==3:
+        v=int(input("Enter value:"))
+        l.insertatend(v)
+    if op==4:
+        v=int(input("Enter value:"))
+        e=int(input("Enter ele:"))
+        l.insertafterele(v,e)
+    if op==5:
+        v=int(input("Enter value:"))
+        e=int(input("Enter ele:"))
+        l.insertbeforeele(v,e)   
+    if op==6:
+        v=int(input("Enter value:"))
+        pos=int(input("Enter pos:"))
+        l.insertatpos(v,pos)
+    if op==7:
+        e=int(input("Enter ele:"))
+        x=l.search(e) 
+        if x:
+            print("Found")
+        else:
+            print("Not found")
+    if op==8:
+        e=int(input("Enter ele:"))
+        x=l.search(e) 
+        if x:
+            l.delete(e)
+        else:
+            print("no such element")
+    if op==9:
+        if l.head==None:
+            print("Not Possible")
+        else:
+            l.deletebegin()
+    if op==10:
+        if l.head==None:
+            print("Not Possible")
+        else:
+            l.deleteend()
+    if op==11:
+        pos=int(input("Enter pos:"))
+        l.deleteatpos(pos)
+    if op==12:
+        r=int(input("Enter rotations:"))
+        x=l.size()
+        print(x)
+        l.rotations(r,x)
+        l.display()
+    if op==13:
+        print(l.size())
+        
