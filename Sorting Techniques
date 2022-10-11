@@ -1,0 +1,43 @@
+#Bubble Sort
+l=list(map(int,input().split()))
+#l=[25,40,15,20,5]
+def bubble(l,n):
+    for i in range(n-1):
+        for j in range(n-i-1):
+            if l[j]>l[j+1]:
+                l[j],l[j+1]=l[j+1],l[j]
+bubble(l,len(l))
+print(l)
+
+
+
+
+#Insertion Sort 
+l=list(map(int,input().split()))
+#l=[25,40,15,20,5]
+def insertion(l,n):
+    for i in range(1,n):
+        key=l[i]
+        j=i-1 
+        while(key<l[j] and j>=0):
+            l[j+1]=l[j]
+            j-=1
+        l[j+1]=key
+insertion(l,len(l))
+print(l)
+
+
+
+
+#Selection Sort 
+l=list(map(int,input().split()))
+#l=[25,40,15,20,5]
+def selection(l,n):
+    for i in range(n):
+        mi=i 
+        for j in range(i+1,n):
+            if l[mi]>l[j]:
+                mi=j 
+        l[mi],l[i]=l[i],l[mi]
+selection(l,len(l))
+print(l)
